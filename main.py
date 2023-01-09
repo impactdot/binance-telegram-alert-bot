@@ -16,7 +16,8 @@ db = []
 
 
 # can take an argument for a pairing
-async def background_task():
+# also add time interval and the percentage change
+async def background_task(pairing):
     while True:
         await asyncio.sleep(5)
         # print(db)
@@ -26,17 +27,17 @@ async def background_task():
         time_10_min_ago = time_now - 600000
         endpoint = "https://api.binance.com/api/v3/klines"
         params = {
-            "symbol": "BTCUSDT",
+            "symbol": pairing,
             "interval": "1m",
-            "limit": 10,
+            "limit": 1,
             "startTime": time_now,
             "endTime": time_now,
         }
         price_now = requests.get(endpoint, params=params).json()[0][1]
         params = {
-            "symbol": "BTCUSDT",
+            "symbol": pairing,
             "interval": "1m",
-            "limit": 10,
+            "limit": 1,
             "startTime": time_10_min_ago,
             "endTime": time_10_min_ago,
         }
@@ -52,46 +53,7 @@ async def background_task():
 async def welcome(message: types.Message):
     await bot.send_message(chat_id=message.chat.id, text="Hello blyat!")
     # instead of running it here, we can run it after the user chooses the pairing, a.k.a after /inline command
-    await asyncio.create_task(background_task())
-
-
-# @dp.message_handler(commands='inline')
-# async def start_cmd_handler(message: types.Message):
-#     keyboard_markup = types.InlineKeyboardMarkup(row_width=3)
-#     # default row_width is 3, so here we can omit it actually
-#     # kept for clearness
-
-#     text_and_data = (
-#         ('BTC-USDT', 'bitcoin'),
-#         ('SOL-USD', 'solana'),
-#     )
-#     # in real life for the callback_data the callback data factory should be used
-#     # here the raw string is used for the simplicity
-#     row_btns = (types.InlineKeyboardButton(text, callback_data=data) for text, data in text_and_data)
-
-#     keyboard_markup.row(*row_btns)
-#     keyboard_markup.add(
-#         # url buttons have no callback data
-#         types.InlineKeyboardButton('aiogram source', url='https://github.com/aiogram/aiogram'),
-#     )
-
-#     await message.reply("NYA", reply_markup=keyboard_markup)
-
-
-# @dp.callback_query_handler(text='bitcoin')
-# async def bitcoin(message: types.Message):
-#     while True:
-#         if price_change_detection("BTCUSDT", db):
-#             await bot.send_message(chat_id=USER_ID, text=f"Price changed! {db[-2]} -> {db[-1]}")
-#             await asyncio.sleep(5)
-
-
-# @dp.callback_query_handler(text='solana')
-# async def bitcoin(message: types.Message):
-#     while True:
-#         if price_change_detection("BTCUSDT", db):
-#             await bot.send_message(chat_id=USER_ID, text=f"Price changed! {db[-2]} -> {db[-1]}")
-#             await asyncio.sleep(5)
+    await asyncio.create_task(background_task("BTCUSDT"))
 
 
 # Create a command handler to send the inline keyboard
