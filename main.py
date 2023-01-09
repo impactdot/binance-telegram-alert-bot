@@ -2,11 +2,13 @@ from aiogram import Bot, Dispatcher, executor, types
 from config import API_TOKEN, USER_ID
 import requests
 from datetime import datetime
-from data_storage import price_change_detection
-import asyncio
-import logging
 
-logging.basicConfig(level=logging.INFO)
+# from data_storage import price_change_detection
+import asyncio
+
+# import logging
+
+# logging.basicConfig(level=logging.INFO)
 
 url_begin = "https://fapi.binance.com/fapi/v1/trades?symbol="
 url_end = "&limit=1"
