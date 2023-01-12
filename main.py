@@ -26,7 +26,7 @@ def price_change_detection(price_1, price_2, percentage):
 
 # can take an argument for a pairing
 # also add time interval and the percentage change
-async def background_task(pairing, percentage=0.01, seconds=60):
+async def background_task(pairing, percentage=0.01, seconds=120):
     while True:
         time_10_min_ago = int(datetime.now().strftime("%s")) * 1000 - 600000
         endpoint = "https://api.binance.com/api/v3/klines"
