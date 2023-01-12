@@ -13,3 +13,7 @@ Telegram Bot to alert user when a price has changed.
 ## Non-main files
 
 Non-main files are just there for further development. They are not required to run
+
+## Heroku test
+
+-   [ ] maybe will need to add support for heroku using GET and POST.
