@@ -1,5 +1,6 @@
 from aiogram import Bot, Dispatcher, executor, types
-from dotenv import load_dotenv
+
+# from dotenv import load_dotenv
 import os
 import requests
 from datetime import datetime
@@ -7,7 +8,7 @@ import asyncio
 
 
 # loading the .env constants
-load_dotenv()
+# load_dotenv()
 # Constants from .env
 API_TOKEN = os.environ["API_TOKEN"]
 USER_ID = os.environ["USER_ID"]
