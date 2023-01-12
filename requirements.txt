@@ -2,6 +2,6 @@ aiogram
 asyncio
 requests
 datetime
-decouple
+python-decouple
 # dotenv
 # os
