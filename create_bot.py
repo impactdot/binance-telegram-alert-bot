@@ -1,4 +1,5 @@
 from aiogram import Bot, Dispatcher, executor, types
+from decouple import config  # instead of dotenv
 
 # from dotenv import load_dotenv
 import os
@@ -10,9 +11,10 @@ import asyncio
 # loading the .env constants
 # load_dotenv()
 # Constants from .env
-API_TOKEN = os.environ["API_TOKEN"]
-USER_ID = os.environ["USER_ID"]
-
+# API_TOKEN = os.environ["API_TOKEN"] - if doesn't work, bring them back
+# USER_ID = os.environ["USER_ID"] - if doesn't work, bring them back
+API_TOKEN = config("API_TOKEN")
+USER_ID = config("USER_ID")
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
