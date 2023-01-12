@@ -1,20 +1,22 @@
 from aiogram import Bot, Dispatcher, executor, types
-from config import API_TOKEN, USER_ID
 import requests
 from datetime import datetime
-
-# from data_storage import price_change_detection
+from dotenv import load_dotenv
+import os
 import asyncio
 
 # import logging
-
 # logging.basicConfig(level=logging.INFO)
 
-url_begin = "https://fapi.binance.com/fapi/v1/trades?symbol="
-url_end = "&limit=1"
+# loading the .env constants
+load_dotenv()
+# Constants from .env
+API_TOKEN = os.environ["API_TOKEN"]
+USER_ID = os.environ["USER_ID"]
+
+# initializing the bot variables required
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
-db = []
 
 
 def price_change_detection(price_1, price_2, percentage):
