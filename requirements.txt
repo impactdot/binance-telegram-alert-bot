@@ -2,3 +2,5 @@ aiogram
 asyncio
 requests
 datetime
+dotenv
+os
