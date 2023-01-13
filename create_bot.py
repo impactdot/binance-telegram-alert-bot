@@ -39,14 +39,18 @@ async def background_task(pairing, percentage=0.01, seconds=120, user_id=USER_ID
         price_10_min_ago = float(prices[1][1])
         price_now = float(prices[0][1])
         # we could change the percentage later
+        # заменить bot.send_message на простой возврат значения, а в main.py уже отправлять
+        # тогда возможно прийдется передвинуть await async.sleep в другое место
+        # return делать нельзя, т.к. тогда мы выйдем из while True:
+        # тогда костыль
         if price_change_detection(price_10_min_ago, price_now, percentage):
             await bot.send_message(
-                chat_id=USER_ID,
+                chat_id=user_id,
                 text=f"Price for {pairing} changed! {price_10_min_ago} -> {price_now}",
             )
         else:
             await bot.send_message(
-                chat_id=USER_ID,
+                chat_id=user_id,
                 text=f"Price for {pairing} didn't change by { percentage * 100 }%, now it is {price_now}",
             )
         await asyncio.sleep(seconds)

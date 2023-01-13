@@ -17,44 +17,31 @@ end_datetime = datetime.datetime.strptime(f"{end_date} {end_time}", "%Y-%m-%d %H
 start_timestamp = int(start_datetime.timestamp() * 1000)
 end_timestamp = int(end_datetime.timestamp() * 1000)
 
+# Print the timestamps
+print(start_timestamp)
+print(end_timestamp)
+
 endpoint = "https://api.binance.com/api/v3/klines"
+
 params = {
     "symbol": "BTCUSDT",
     "interval": "1m",
     "limit": 10,
-    "startTime": start_timestamp,
-    "endTime": end_timestamp,
+    "startTime": 1609459200000,
+    # "endTime": 1609462800000,
+    "endTime": 1609459200000,
 }
 
-price_now = requests.get(endpoint, params=params).json()
+response = requests.get(endpoint, params=params)
 
 
-time_10_min_ago = int(datetime.datetime.now().strftime("%s")) * 1000 - 600000
+if response.status_code == 200:
+    # Request was successful
+    data = response.json()
+else:
+    # Request was unsuccessful
+    data = None
 
 
-params = {
-    "symbol": "BTCUSDT",
-    "interval": "1m",
-    "limit": 2,
-    "startTime": time_10_min_ago,
-    "endTime": time_10_min_ago + 600000,
-}
-
-price_now = requests.get(endpoint, params=params).json()
-
-print(price_now)
-print(len(price_now))
-
-# response = requests.get(endpoint, params=params)
-
-
-# if response.status_code == 200:
-#     # Request was successful
-#     data = response.json()
-# else:
-#     # Request was unsuccessful
-#     data = None
-
-
-# if data is not None:
-#     print(len(data))
+if data is not None:
+    print(len(data))
