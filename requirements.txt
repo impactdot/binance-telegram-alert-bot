@@ -1,5 +1,8 @@
-flask 
-flask 
+fastapi
 session 
 gunicorn 
 python-telegram-bot
+requests
+python-decouple
+asyncio
+json
