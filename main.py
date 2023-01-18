@@ -1,12 +1,13 @@
 import asyncio
 import json
 import requests
-from fastapi import FastAPI, Request
 from telegram import Bot, Update
 from decouple import config
+from flask import Flask, request
+from aiohttp import FlaskAioHTTP
 
+app = Flask(__name__)
 API_TOKEN = config("API_TOKEN")
-app = FastAPI()
 bot = Bot(f"{API_TOKEN}")
 
 
@@ -25,7 +26,7 @@ async def get_updates(update, symbol):
     )
 
 
-@app.post(f"/{API_TOKEN}")
+@app.route("/YOUR_TOKEN", methods=["POST"])
 async def handle_updates(request: Request):
     # Extract the update data from the request
     update = request.json()
@@ -51,7 +52,7 @@ async def handle_updates(request: Request):
                 # Get the current price of the cryptocurrency pairing
                 url = "https://api.binance.com/api/v3/ticker/price"
                 params = {"symbol": current_symbol}
-                response = requests.get(url, params=params)
+                response = await requests.get(url, params=params)
                 data = json.loads(response.text)
                 current_price = data["price"]
 
@@ -79,7 +80,8 @@ async def main():
         "https://binance-telegram-alert-bot.herokuapp.com/" + bot.token
     )
     await bot.start_webhook(f"/{API_TOKEN}", handle_updates)
-    await app.run()
+    FlaskAioHTTP(app)
+    app.run(port=8000)
 
 
 if __name__ == "__main__":
