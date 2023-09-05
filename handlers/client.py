@@ -8,7 +8,7 @@ from create_bot import background_task
 async def welcome(message: types.Message):
     await bot.send_message(
         chat_id=message.chat.id,
-        text="Hello blyat!\nRun the /percentage command and then /inline command",
+        text="Hello!\nRun the /percentage command and then /inline command",
     )
 
 

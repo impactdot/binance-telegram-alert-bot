@@ -1,9 +1,9 @@
 from aiogram import Bot, Dispatcher, executor, types
 from decouple import config  # instead of dotenv
-import os
 import requests
 from datetime import datetime
 import asyncio
+import pandas as pd
 
 
 # loading the .env constants
@@ -12,6 +12,8 @@ USER_ID = config("USER_ID")
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
+df = pd.DataFrame(columns=["timestamp", "open", "high", "low", "close", "volume"])
+df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
 
 
 def price_change_detection(price_1, price_2, percentage):
@@ -38,6 +40,18 @@ async def background_task(pairing, percentage=0.01, seconds=120, user_id=USER_ID
         prices = requests.get(endpoint, params=params).json()
         price_10_min_ago = float(prices[1][1])
         price_now = float(prices[0][1])
+        # append each new fetched price to the dataframe as a row
+        df.append(
+            [
+                prices[0][0],
+                prices[0][1],
+                prices[0][2],
+                prices[0][3],
+                prices[0][4],
+                prices[0][5],
+            ]
+        )
+        print(df)
         # we could change the percentage later
         # заменить bot.send_message на простой возврат значения, а в main.py уже отправлять
         # тогда возможно прийдется передвинуть await async.sleep в другое место
