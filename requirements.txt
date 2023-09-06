@@ -1,4 +1,4 @@
-aiogram
+aiogram==2.24
 asyncio
 requests
 datetime
