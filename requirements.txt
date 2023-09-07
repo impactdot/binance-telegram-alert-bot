@@ -3,5 +3,6 @@ asyncio
 requests
 datetime
 python-decouple
+pandas
 # dotenv
 # os
